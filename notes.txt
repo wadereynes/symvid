@@ -1,0 +1,75 @@
+14.15
+
+composer require symfony/maker-bundle --dev
+
+
+https://symfony.com/doc/5.x/setup.html
+
+
+composer require symfony/webapp-pack:*
+
+Install symfony on windows
+https://www.youtube.com/watch?v=s1mi7Y-htno&ab_channel=DevVoiceassistant
+
+
+
+symfony serve (to run symfony app)
+symfony console make:controller (Create controller and templates)
+symfony console make:user
+symfony console doctrine:database:create
+symfony console make:migration (Create migration)
+symfony console doctrine:migration:migrate (Push migration data to database)
+symfony console make:form (Register and User entity)
+symfony console make:entity (User entity and slug ex.firstname, lastname after symfony console make:migration then symfony console doctrine:migration:migrate)
+symfony console make:auth (create authentication type:LoginFormAuthenticator)
+symfony console debug:router (list of urls)
+composer require admin:^3 (to get easyadmin ver3) or composer require easycorp/easyadmin-bundle
+symfony console make:admin:dashboard (create admin controller)
+symfony console make:admin:crud (type ex.0 to create crud entity to your admin)
+npm init (webpack encore)
+npm install @symfony/webpack-encore --save-dev
+./node_modules/.bin/encore production
+composer require webpack (https://www.youtube.com/watch?v=Fs_4FMoSO90&ab_channel=GaryClarke)
+yarn encore dev
+yarn build (to minify)
+symfony console doctrine:database:create
+comsposer require orm-fixtures --dev 
+symfony console make:fixtures (Ex. CategoryFixtures for seed database)
+symfony console doctrine:fixtures:load (To seed data to database)
+symfony console make:twig-extension (to create twig extension ex. slugify)
+composer require symfony/var-dumper --dev
+composer require sensio/framework-extra-bundle
+form_themes: ['bootstrap_4_layout.html.twig'] (twig.yaml to add bootstrap themes to symfony)
+symfony console make:unit-test (to create unit testing)
+php bin/phpunit (run unit testing)
+./tests.sh (using bash script .sh)
+./tests.sh tests -db (to rebuild all database)
+./tests tests/Utitls (to test specific folder)
+symfony console make:functional-test
+composer require knplabs/knp-paginator-bundle (for pagination)
+composer require sensiolabs/security-checker (for security checker)
+symfony console security:check
+composer require knplabs/knp-time-bundle (for date format)
+
+=============================
+
+config/packages/twig.yaml
+
+
+Entity
+- you can create more property ex. slug, subtitle
+- you can set relation
+- you can edit existing entity using typing again "symfony console make:entity" then choose entity you whish to edit
+
+
+===================
+Rebuild database commands
+
+symfony console doctrine:schema:drop -n -q --force --full-database
+rm migrations/*.php
+symfony console make:migration
+symfony console doctrine:migrations:migrate -n -q
+symfony console doctrine:fixtures:load -n -q
+
+
+     

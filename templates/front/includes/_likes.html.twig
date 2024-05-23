@@ -2,6 +2,10 @@
     {% if video in app.user.getLikedVideos %}
     {% set userLikesVideo = 'userLikesVideo' %}
     {% elseif video in app.user.getDislikedVideos %}
+    {% set userDoesNotLikeVideo = 'userDoesNotLikeVideo' %}
+    {% else %}
+    {% set noActionYet = 'noActionYet' %}
+    {% endif %}
 
     <button data-toggle="tooltip" data-placement="top" title="Click to like the video"
             type="button" class="btn btn-primary btn-outline-success btn-sm ml-1 video-id-{{ video.id }} click-to-like-video {{ noActionYet|default(null) }}">

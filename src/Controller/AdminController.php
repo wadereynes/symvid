@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Video;
 use App\Form\CategoryType;
 use App\Utils\CategoryTreeAdminList;
 use App\Utils\CategoryTreeAdminOptionList;
@@ -108,7 +109,18 @@ class AdminController extends AbstractController
      */
     public function videos(): Response
     {
-        return $this->render('admin/videos.html.twig');
+        if ($this->isGranted('ROLE_ADMIN'))
+        {
+            $videos = $this->getDoctrine()->getRepository(Video::class)
+                ->findAll();
+        }
+        else
+        {
+            $videos = $this->getUser()->getLikedVideos();
+        }
+        return $this->render('admin/videos.html.twig', [
+            'videos'=>$videos
+        ]);
     }
 
     /**
@@ -127,34 +139,34 @@ class AdminController extends AbstractController
         return $this->render('admin/users.html.twig');
     }
 
-    public function getAllCategories(CategoryTreeAdminOptionList $categories, $editedCategory = null)
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $categories->getCategoryList($categories->buildTree());
-        return $this->render('admin/_all_categories.html.twig', [
-            'categories'=>$categories,
-            'editedCategory'=>$editedCategory
-        ]);
-    }
+//    public function getAllCategories(CategoryTreeAdminOptionList $categories, $editedCategory = null)
+//    {
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+//        $categories->getCategoryList($categories->buildTree());
+//        return $this->render('admin/_all_categories.html.twig', [
+//            'categories'=>$categories,
+//            'editedCategory'=>$editedCategory
+//        ]);
+//    }
 
-    private function saveCategory($category, $form, $request)
-    {
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $category->setName($request->request->get('category')['name']);
-
-            $repository = $this->getDoctrine()->getRepository(Category::class);
-            $parent = $repository->find($request->request->get('category')['parent']);
-            $category->setParent($parent);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($category);
-            $entityManager->flush();
-
-            return true;
-        }
-        return false;
-    }
+//    private function saveCategory($category, $form, $request)
+//    {
+//        $form->handleRequest($request);
+//
+//        if($form->isSubmitted() && $form->isValid())
+//        {
+//            $category->setName($request->request->get('category')['name']);
+//
+//            $repository = $this->getDoctrine()->getRepository(Category::class);
+//            $parent = $repository->find($request->request->get('category')['parent']);
+//            $category->setParent($parent);
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($category);
+//            $entityManager->flush();
+//
+//            return true;
+//        }
+//        return false;
+//    }
 }
